@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CSC 396: {Student Name}</title>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Thambi|Rubik" rel="stylesheet"> 
+    <meta charset="utf-8">
+</head>
+    <style>
+        body{
+            background: #f6ba52;
+            color:black;
+            margin: 0;
+            font-family: 'Rubik', sans-serif;
+        }
+        h1{
+            text-align: center;
+            font-family: 'Baloo Thambi', cursive;
+           background: repeating-linear-gradient(
+              to right,
+              #f6ba52,
+              #f6ba52 10px,
+              #ffd180 10px,
+              #ffd180 20px
+            );
+            color:black;
+        }
+        h2{
+            text-align: center;
+            font-family: 'Baloo Thambi', cursive;
+            background: repeating-linear-gradient(
+              to right,
+              #f6ba52,
+              #f6ba52 10px,
+              #ffd180 10px,
+              #ffd180 20px
+            );
+            color:black;
+            width:70%;
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
+        form{
+            width:170px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+         p{
+            font-family: 'Rubik', sans-serif;
+             font-weight: bold;
+             text-align: center;
+        }
+        button{
+            font-family: 'Rubik', sans-serif;
+            margin-left:auto;
+            margin-right:auto;
+            width:160px;
+            display: block;
+            background-color: #ffd180;
+            border:3px dashed black;
+            border-radius:10px;
+            font-size:1.15em;
+        }
+        input{
+             
+            margin:3px; 
+            border:3px dashed black;
+            border-radius:10px;
+            font-size:.95em;
+            font-family: 'Rubik', sans-serif;
+            color:black;
+            text-align: center;
+           
+        }
+        .inputBox{
+            width:130px;
+        }
+        #items{
+            width:40%;
+            border-radius:10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .item{
+            text-align: center;
+            font-family: 'Rubik', sans-serif;
+            border-bottom:4px dashed black;
+            clear:both;
+            line-height: 40px;
+        }
+        .productQuantity, .productPrice{
+            float:left;
+            width:15%;
+            text-align: center;
+        }
+        .productName, .subTotal {
+            float:left;
+            width:30%;
+            text-align: center;
+            
+        }
+        .priceOutputTitle{
+            text-align: right;
+            width:60%;
+            font-weight: bold;
+            float:left;
+        }
+        table{
+            margin-left:auto;
+            margin-right: auto;
+            
+        }
+        img {
+            width:20px;
+            border-radius: 50%;
+        }
+        table > tr> td{
+            border:1px dashed black
+        }
+        tr{
+            border-bottom:3px dashed black;
+            
+        }
+        button:hover{
+            cursor: pointer;
+            background-color: white;
+        }
+    </style>
+     
+    <body>
+        <h1>Shopping Tracker</h1>
+        <p>This is a Shopping list to help estimate the cost.</p>
+        <form>
+            <input class="inputBox" type="text" id="productInput" placeholder="Product Name">  
+            <span id="nameError">*</span><br> 
+            <input class="inputBox" type="text" id="priceInput"  placeholder="Price"> 
+            <span id="priceError">*</span><br>
+            <input class="inputBox" type="text" id="quantityInput" placeholder="How Many?"> 
+            <span id="quantityError">*</span><br>
+           <p>Is the product taxable?: </p>
+            <center>
+            <input type="radio" name="isTaxable" id="TaxYes">Taxable Item<br>
+            <input type="radio" name="isTaxable" id="TaxNo"> Not Taxable</p>
+
+            </center>
+        <button type="button" id="addButton">Add Item</button>
+        </form>
+
+        <h2>Cart Items</h2>   
+        <table id="shoppingList">
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Taxable</th>
+                <th>Remove</th>
+            </tr>
+        </table>
+        <p>Sub Total: $<span id="subTotal"></span></p>
+        <p>Sales Tax: $<span id="salesTax"></span></p>
+        <p>Amount Due: $<span id="finalPrice"></span></p>
+            
+         
+
+    </body>
+ <script>
+       var $ = function(e){
+            return document.getElementById(e);
+        }
+       
+       var CheckValues = function(){
+           var productName = $("productInput").value;
+           
+           if(productName.length < 2){
+               alert("product name must be longer than 2 characters");
+           } else if(!isNaN(productName)){
+               alert("product name must be alphabetical");
+           }
+           
+           var price = parseInt($("priceInput").value);
+           
+           if(isNaN(price)){
+               alert("price must be numerical input");
+           } else if(price < 0){
+               alert("price must be a positive number");
+           }
+           
+           var quantity = parseInt($("quantityInput").value);
+           
+           if(isNaN(quantity)){
+               alert("quantity must be numerical input");
+           } else if(Number.isInteger(quantity)){
+               alert("quantity must be a whole number");
+           }
+       };
+     
+     var AddItem = function(){
+         if(!CheckValues){
+            alert("Did not pass all checks"); 
+         }
+     };
+     
+     window.onload = function(){
+         $("addButton").onclick = CheckValues;
+     };
+</script>
+</html>

@@ -170,38 +170,89 @@
        
        var CheckValues = function(){
            var productName = $("productInput").value;
+           var price = $("priceInput").value;
+           var quantity = $("quantityInput").value;
+           var isValid = true;
            
-           if(productName.length < 2){
-               alert("product name must be longer than 2 characters");
+           if(productName.length == 0){
+              $("productInput").nextElementSibling.firstChild.nodeValue = "product name field is required";
+               isValid = false;
+           } else if(productName.length < 2){
+               $("productInput").nextElementSibling.firstChild.nodeValue = "product name must be 2 or more characters";
+               isValid = false;
            } else if(!isNaN(productName)){
-               alert("product name must be alphabetical");
+               $("productInput").nextElementSibling.firstChild.nodeValue = "product name must be alphabetical";
+               isValid = false;
+           } else{
+               $("productInput").nextElementSibling.firstChild.nodeValue = "*";
            }
            
-           var price = parseInt($("priceInput").value);
            
-           if(isNaN(price)){
-               alert("price must be numerical input");
+           if(price.length == 0){
+               $("priceInput").nextElementSibling.firstChild.nodeValue = "price field is required";
+               isValid = false;
+           } 
+           // Used created function, isNumeric(n) to eliminate possibility of entering things like "12a"
+           else if(!isNumeric(price)){
+               $("priceInput").nextElementSibling.firstChild.nodeValue = "price must be numerical input";
+               isValid = false;
            } else if(price < 0){
-               alert("price must be a positive number");
+               $("priceInput").nextElementSibling.firstChild.nodeValue = "price must be a positive number";
+               isValid = false;
+           } else{
+               $("priceInput").nextElementSibling.firstChild.nodeValue = "*";
            }
            
-           var quantity = parseInt($("quantityInput").value);
            
-           if(isNaN(quantity)){
-               alert("quantity must be numerical input");
-           } else if(Number.isInteger(quantity)){
-               alert("quantity must be a whole number");
+           if(quantity.length == 0){
+               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity field is required";
+               isValid = false;
            }
+           // Used created function, isNumeric(n) to eliminate possibility of entering things like "12a"
+           else if(!isNumeric(quantity)){
+               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be numerical input";
+               isValid = false;
+           } else if(parseFloat(quantity) % 1 != 0){
+               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be a whole number";
+               isValid = false;
+           } else if(quantity < 0){
+               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be a positive number";
+               isValid = false;
+           } else{
+               $("quantityInput").nextElementSibling.firstChild.nodeValue = "*";
+           }
+            
+           
+           if(!$("TaxYes").checked && !$("TaxNo").checked){
+               alert("You must select whether this item is taxable or not");
+               isValid = false;
+           }
+           
+        
+           
+           if(isValid){
+               $("productInput").value = "";
+               $("priceInput").value = "";
+               $("quantityInput").value = "";
+               $("TaxYes").checked = false;
+               $("TaxNo").checked = false;
+               AddItem();
+           } 
+           
+       };
+     
+     // Created as an extra function to ensure that numeric input is truly numeric and contains no non-numeric input
+       function isNumeric(n) {
+           return !isNaN(parseFloat(n)) && isFinite(n);
        };
      
      var AddItem = function(){
-         if(!CheckValues){
-            alert("Did not pass all checks"); 
-         }
+         alert("entered AddItem function");
      };
      
      window.onload = function(){
          $("addButton").onclick = CheckValues;
+         // $("addButton").onclick = AddItem;
      };
 </script>
 </html>

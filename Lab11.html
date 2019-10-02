@@ -164,9 +164,11 @@
 
     </body>
  <script>
+       var rowNumber = 0;
+     
        var $ = function(e){
             return document.getElementById(e);
-        }
+        };
        
        var CheckValues = function(){
            var productName = $("productInput").value;
@@ -231,11 +233,6 @@
         
            
            if(isValid){
-               $("productInput").value = "";
-               $("priceInput").value = "";
-               $("quantityInput").value = "";
-               $("TaxYes").checked = false;
-               $("TaxNo").checked = false;
                AddItem();
            } 
            
@@ -247,8 +244,45 @@
        };
      
      var AddItem = function(){
+         rowNumber = rowNumber + 1;
+         var taxable = $("TaxYes").checked;
          alert("entered AddItem function");
+         
+         var name = document.querySelector("#productInput").value;
+         var price = document.querySelector("#priceInput").value;
+         price = parseFloat(price);
+         var quantity = document.querySelector("#quantityInput").value;
+         quantity = parseInt(quantity);
+         alert(name + price + quantity);
+         
+         var myTable = $("shoppingList");
+         
+         var newRow = myTable.insertRow(rowNumber);
+         
+         var newCell1 = newRow.insertCell(0);
+         var newCell2 = newRow.insertCell(1);
+         var newCell3 = newRow.insertCell(2);
+         var newCell4 = newRow.insertCell(3);
+         var newCell5 = newRow.insertCell(4);
+         
+         newCell1.innerHTML = name;
+         newCell2.innerHTML = price;
+         newCell3.innerHTML = quantity;
+         newCell4.innerHTML = taxable;
+         
+         updateCost();
      };
+     
+     var updateCost = function(){
+         alert("entered updateCost() function");
+         
+         // This will be for the clear method
+         $("productInput").value = "";
+         $("priceInput").value = "";
+         $("quantityInput").value = "";
+         $("TaxYes").checked = false;
+         $("TaxNo").checked = false;
+     }
      
      window.onload = function(){
          $("addButton").onclick = CheckValues;

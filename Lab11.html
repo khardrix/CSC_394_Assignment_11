@@ -312,6 +312,14 @@
          amountDueItem.innerHTML = amountDue.toFixed(2);
          document.querySelector("#finalPrice").appendChild(amountDueItem);
          
+         ClearAll();
+     }
+     
+     
+     var ClearAll = function(){
+         $("productInput").focus();
+         
+         alert("entering the ClearAll() function");
          // This will be for the clear method
          $("productInput").value = "";
          $("priceInput").value = "";
@@ -320,9 +328,10 @@
          $("TaxNo").checked = false;
      }
      
+     
      window.onload = function(){
          $("addButton").onclick = CheckValues;
-         // $("addButton").onclick = AddItem;
+         $("productInput").focus();
      };
 </script>
 </html>

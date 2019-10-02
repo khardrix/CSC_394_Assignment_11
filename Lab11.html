@@ -165,6 +165,10 @@
     </body>
  <script>
        var rowNumber = 0;
+       var subTotal = 0.00;
+       var salesTax = 0.00;
+       var amountDue = 0.00;
+       
      
        var $ = function(e){
             return document.getElementById(e);
@@ -253,7 +257,6 @@
          price = parseFloat(price);
          var quantity = document.querySelector("#quantityInput").value;
          quantity = parseInt(quantity);
-         alert(name + price + quantity);
          
          var myTable = $("shoppingList");
          
@@ -266,7 +269,7 @@
          var newCell5 = newRow.insertCell(4);
          
          newCell1.innerHTML = name;
-         newCell2.innerHTML = price;
+         newCell2.innerHTML = price.toFixed(2);
          newCell3.innerHTML = quantity;
          newCell4.innerHTML = taxable;
          
@@ -275,6 +278,39 @@
      
      var updateCost = function(){
          alert("entered updateCost() function");
+         var taxable = $("TaxYes").checked;
+         var price = document.querySelector("#priceInput").value;
+         price = parseFloat(price);
+         var quantity = document.querySelector("#quantityInput").value;
+         quantity = parseInt(quantity);
+         var currentItemSubTotal = price * quantity;
+         
+         subTotal = subTotal + currentItemSubTotal;
+         alert("subTotal = " + subTotal.toFixed(2));
+         
+         if(taxable){
+             var currentItemSalesTax = currentItemSubTotal * 0.055;
+             salesTax = salesTax + currentItemSalesTax;
+         }
+         
+         alert("current item sales tax = " + currentItemSalesTax.toFixed(2));
+         alert("sales tax = " + salesTax.toFixed(2));
+         
+         amountDue = amountDue + subTotal + salesTax;
+         alert("amount due = " + amountDue.toFixed(2));
+         
+         var subTotalItem = document.createElement("span");
+         subTotalItem.innerHTML = subTotal.toFixed(2);
+        document.querySelector("#subTotal").appendChild(subTotalItem);
+         
+         
+         var salesTaxItem = document.createElement("span");
+         salesTaxItem.innerHTML = salesTax.toFixed(2);
+         document.querySelector("#salesTax").appendChild(salesTaxItem);
+         
+         var amountDueItem = document.createElement("span");
+         amountDueItem.innerHTML = amountDue.toFixed(2);
+         document.querySelector("#finalPrice").appendChild(amountDueItem);
          
          // This will be for the clear method
          $("productInput").value = "";

@@ -163,191 +163,191 @@
          
 
     </body>
- <script>
-       var rowNumber = 0;
-       var subTotal = 0.00;
-       var salesTax = 0.00;
-       var amountDue = 0.00;
+<script>
+    var rowNumber = 0;
+    var subTotal = 0.00;
+    var salesTax = 0.00;
+    var amountDue = 0.00;
        
      
-       var $ = function(e){
-            return document.getElementById(e);
-        };
-       
-       var CheckValues = function(){
-           var productName = $("productInput").value;
-           var price = $("priceInput").value;
-           var quantity = $("quantityInput").value;
-           var isValid = true;
-           
-           if(productName.length == 0){
-             $("productInput").nextElementSibling.firstChild.nodeValue = "product name field is required";
-               isValid = false;
-           } else if(productName.length < 2){
-               $("productInput").nextElementSibling.firstChild.nodeValue = "product name must be 2 or more characters";
-               isValid = false;
-           } else if(!isNaN(productName)){
-               $("productInput").nextElementSibling.firstChild.nodeValue = "product name must be alphabetical";
-               isValid = false;
-           } else{
-               $("productInput").nextElementSibling.firstChild.nodeValue = "*";
-           }
-           
-           
-           if(price.length == 0){
-               $("priceInput").nextElementSibling.firstChild.nodeValue = "price field is required";
-               isValid = false;
-           } 
-           // Used created function, isNumeric(n) to eliminate possibility of entering things like "12a"
-           else if(!isNumeric(price)){
-               $("priceInput").nextElementSibling.firstChild.nodeValue = "price must be numerical input";
-               isValid = false;
-           } else if(price < 0){
-               $("priceInput").nextElementSibling.firstChild.nodeValue = "price must be a positive number";
-               isValid = false;
-           } else{
-               $("priceInput").nextElementSibling.firstChild.nodeValue = "*";
-           }
-           
-           
-           if(quantity.length == 0){
-               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity field is required";
-               isValid = false;
-           }
-           // Used created function, isNumeric(n) to eliminate possibility of entering things like "12a"
-           else if(!isNumeric(quantity)){
-               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be numerical input";
-               isValid = false;
-           } else if(parseFloat(quantity) % 1 != 0){
-               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be a whole number";
-               isValid = false;
-           } else if(quantity < 0){
-               $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be a positive number";
-               isValid = false;
-           } else{
-               $("quantityInput").nextElementSibling.firstChild.nodeValue = "*";
-           }
-            
-           
-           if(!$("TaxYes").checked && !$("TaxNo").checked){
-               alert("You must select whether this item is taxable or not");
-               isValid = false;
-           }
+    
+    
+    var $ = function(e){
+        return document.getElementById(e);
+    };
+      
+    
+    
+    
+    var CheckValues = function(){
+        var productName = $("productInput").value;
+        var price = $("priceInput").value;
+        var quantity = $("quantityInput").value;
+        var isValid = true;
            
         
+        if(productName.length == 0){
+            $("productInput").nextElementSibling.firstChild.nodeValue = "product name field is required";
+            isValid = false;
+        } else if(productName.length < 2){
+            $("productInput").nextElementSibling.firstChild.nodeValue = "product name must be 2 or more characters";
+            isValid = false;
+        } else if(!isNaN(productName)){
+            $("productInput").nextElementSibling.firstChild.nodeValue = "product name must be alphabetical";
+            isValid = false;
+        } else{
+            $("productInput").nextElementSibling.firstChild.nodeValue = "*";
+        }
+             
+        
+        if(price.length == 0){
+            $("priceInput").nextElementSibling.firstChild.nodeValue = "price field is required";
+            isValid = false;
+        } 
+        // Used created function, isNumeric(n) to eliminate possibility of entering things like "12a"
+        else if(!isNumeric(price)){
+            $("priceInput").nextElementSibling.firstChild.nodeValue = "price must be numerical input";
+            isValid = false;
+        } else if(price < 0){
+            $("priceInput").nextElementSibling.firstChild.nodeValue = "price must be a positive number";
+            isValid = false;
+        } else{
+            $("priceInput").nextElementSibling.firstChild.nodeValue = "*";
+        }
+              
+        
+        if(quantity.length == 0){
+            $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity field is required";
+            isValid = false;
+        }
+        // Used created function, isNumeric(n) to eliminate possibility of entering things like "12a"
+        else if(!isNumeric(quantity)){
+            $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be numerical input";
+            isValid = false;
+        } else if(parseFloat(quantity) % 1 != 0){
+            $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be a whole number";
+            isValid = false;
+        } else if(quantity < 0){
+            $("quantityInput").nextElementSibling.firstChild.nodeValue = "quantity must be a positive number";
+            isValid = false;
+        } else{
+            $("quantityInput").nextElementSibling.firstChild.nodeValue = "*";
+        }
+            
+        
+        if(!$("TaxYes").checked && !$("TaxNo").checked){
+            alert("You must select whether this item is taxable or not");
+            isValid = false;
+        }
            
-           if(isValid){
-               AddItem();
-           } 
-           
-       };
+        
+        if(isValid){
+            AddItem();
+        } 
+    };
      
-     // Created as an extra function to ensure that numeric input is truly numeric and contains no non-numeric input
-       function isNumeric(n) {
-           return !isNaN(parseFloat(n)) && isFinite(n);
-       };
+    
+    
      
-     var AddItem = function(){
-         rowNumber = rowNumber + 1;
-         var taxable = $("TaxYes").checked;
-         alert("entered AddItem function");
-         
-         var name = document.querySelector("#productInput").value;
-         var price = document.querySelector("#priceInput").value;
-         price = parseFloat(price);
-         var quantity = document.querySelector("#quantityInput").value;
-         quantity = parseInt(quantity);
-         
-         
-         var myTable = $("shoppingList");
-         
-         var newRow = myTable.insertRow(rowNumber);
-         
-         var newCell1 = newRow.insertCell(0);
-         var newCell2 = newRow.insertCell(1);
-         var newCell3 = newRow.insertCell(2);
-         var newCell4 = newRow.insertCell(3);
-         var newCell5 = newRow.insertCell(4);
-         
-         newCell1.innerHTML = name;
-         newCell2.innerHTML = price.toFixed(2);
-         newCell3.innerHTML = quantity;
-         newCell4.innerHTML = taxable;
-         
-         updateCost();
-     };
+    // Created as an extra function to ensure that numeric input is truly numeric and contains no non-numeric input
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    };
      
-     var updateCost = function(){
-         if($("subTotal").childNodes.length > 0){
-             $("subTotal").removeChild($("subTotal").firstChild);
-         }
+     
+    
+    
+    var AddItem = function(){
+        rowNumber = rowNumber + 1;
+        var taxable = $("TaxYes").checked;
          
-         if($("salesTax").childNodes.length > 0){
-             $("salesTax").removeChild($("salesTax").firstChild);
-         }
+        var name = document.querySelector("#productInput").value;
+        var price = parseFloat(document.querySelector("#priceInput").value);
+        var quantity = parseInt(document.querySelector("#quantityInput").value);
          
-         if($("finalPrice").childNodes.length > 0){
-             $("finalPrice").removeChild($("finalPrice").firstChild);
-         }
+        var myTable = $("shoppingList");
          
-         alert("entered updateCost() function");
-         var taxable = $("TaxYes").checked;
-         var price = parseFloat(document.querySelector("#priceInput").value);
-         // price = parseFloat(price);
-         var quantity = parseInt(document.querySelector("#quantityInput").value);
-         // quantity = parseInt(quantity);
-         var currentItemSubTotal = price * quantity;
+        var newRow = myTable.insertRow(rowNumber);
          
-         subTotal = subTotal + currentItemSubTotal;
-         alert("subTotal = " + subTotal.toFixed(2));
+        var newCell1 = newRow.insertCell(0);
+        var newCell2 = newRow.insertCell(1);
+        var newCell3 = newRow.insertCell(2);
+        var newCell4 = newRow.insertCell(3);
+        var newCell5 = newRow.insertCell(4);
          
-         var currentItemSalesTax = 0.00;
-         if(taxable){
-             currentItemSalesTax = currentItemSubTotal * 0.055;
-             // salesTax = salesTax + currentItemSalesTax;
-         }
+        newCell1.innerHTML = name;
+        newCell2.innerHTML = price.toFixed(2);
+        newCell3.innerHTML = quantity;
+        newCell4.innerHTML = taxable;
          
-         salesTax = salesTax + currentItemSalesTax;
+        updateCost();
+    };
+    
+    
+    
+     
+    var updateCost = function(){
+        if($("subTotal").childNodes.length > 0){
+            $("subTotal").removeChild($("subTotal").firstChild);
+        }
          
-         alert("current item sales tax = " + currentItemSalesTax.toFixed(2));
-         alert("sales tax = " + salesTax.toFixed(2));
+        if($("salesTax").childNodes.length > 0){
+            $("salesTax").removeChild($("salesTax").firstChild);
+        }
          
-         amountDue = amountDue + subTotal + salesTax;
-         alert("amount due = " + amountDue.toFixed(2));
+        if($("finalPrice").childNodes.length > 0){
+            $("finalPrice").removeChild($("finalPrice").firstChild);
+        }
          
-         var subTotalItem = document.createElement("span");
-         subTotalItem.innerHTML = subTotal.toFixed(2);
+        var taxable = $("TaxYes").checked;
+        var price = parseFloat(document.querySelector("#priceInput").value);
+        var quantity = parseInt(document.querySelector("#quantityInput").value);
+        var currentItemSubTotal = price * quantity;
+         
+        subTotal = subTotal + currentItemSubTotal;
+         
+        var currentItemSalesTax = 0.00;
+        if(taxable){
+            currentItemSalesTax = currentItemSubTotal * 0.055;
+        }
+         
+        salesTax = salesTax + currentItemSalesTax;
+        amountDue = subTotal + salesTax;
+         
+        var subTotalItem = document.createElement("span");
+        subTotalItem.innerHTML = subTotal.toFixed(2);
         document.querySelector("#subTotal").appendChild(subTotalItem);
          
+        var salesTaxItem = document.createElement("span");
+        salesTaxItem.innerHTML = salesTax.toFixed(2);
+        document.querySelector("#salesTax").appendChild(salesTaxItem);
+    
+        var amountDueItem = document.createElement("span");
+        amountDueItem.innerHTML = amountDue.toFixed(2);
+        document.querySelector("#finalPrice").appendChild(amountDueItem);
          
-         var salesTaxItem = document.createElement("span");
-         salesTaxItem.innerHTML = salesTax.toFixed(2);
-         document.querySelector("#salesTax").appendChild(salesTaxItem);
+        ClearAll();
+    };
+     
+    
+    
+     
+    var ClearAll = function(){
+        $("productInput").value = "";
+        $("priceInput").value = "";
+        $("quantityInput").value = "";
+        $("TaxYes").checked = false;
+        $("TaxNo").checked = false;
          
-         var amountDueItem = document.createElement("span");
-         amountDueItem.innerHTML = amountDue.toFixed(2);
-         document.querySelector("#finalPrice").appendChild(amountDueItem);
-         
-         ClearAll();
-     }
+        $("productInput").focus();
+    };
      
+    
+    
      
-     var ClearAll = function(){
-         alert("entering the ClearAll() function");
-         // This will be for the clear method
-         $("productInput").value = "";
-         $("priceInput").value = "";
-         $("quantityInput").value = "";
-         $("TaxYes").checked = false;
-         $("TaxNo").checked = false;
-         
-         $("productInput").focus();
-     }
-     
-     
-     window.onload = function(){
-         $("addButton").onclick = CheckValues;
-         $("productInput").focus();
-     };
+    window.onload = function(){
+        $("addButton").onclick = CheckValues;
+        $("productInput").focus();
+    };
 </script>
 </html>

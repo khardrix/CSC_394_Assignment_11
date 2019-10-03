@@ -181,7 +181,7 @@
            var isValid = true;
            
            if(productName.length == 0){
-              $("productInput").nextElementSibling.firstChild.nodeValue = "product name field is required";
+             $("productInput").nextElementSibling.firstChild.nodeValue = "product name field is required";
                isValid = false;
            } else if(productName.length < 2){
                $("productInput").nextElementSibling.firstChild.nodeValue = "product name must be 2 or more characters";
@@ -258,6 +258,7 @@
          var quantity = document.querySelector("#quantityInput").value;
          quantity = parseInt(quantity);
          
+         
          var myTable = $("shoppingList");
          
          var newRow = myTable.insertRow(rowNumber);
@@ -277,21 +278,36 @@
      };
      
      var updateCost = function(){
+         if($("subTotal").childNodes.length > 0){
+             $("subTotal").removeChild($("subTotal").firstChild);
+         }
+         
+         if($("salesTax").childNodes.length > 0){
+             $("salesTax").removeChild($("salesTax").firstChild);
+         }
+         
+         if($("finalPrice").childNodes.length > 0){
+             $("finalPrice").removeChild($("finalPrice").firstChild);
+         }
+         
          alert("entered updateCost() function");
          var taxable = $("TaxYes").checked;
-         var price = document.querySelector("#priceInput").value;
-         price = parseFloat(price);
-         var quantity = document.querySelector("#quantityInput").value;
-         quantity = parseInt(quantity);
+         var price = parseFloat(document.querySelector("#priceInput").value);
+         // price = parseFloat(price);
+         var quantity = parseInt(document.querySelector("#quantityInput").value);
+         // quantity = parseInt(quantity);
          var currentItemSubTotal = price * quantity;
          
          subTotal = subTotal + currentItemSubTotal;
          alert("subTotal = " + subTotal.toFixed(2));
          
+         var currentItemSalesTax = 0.00;
          if(taxable){
-             var currentItemSalesTax = currentItemSubTotal * 0.055;
-             salesTax = salesTax + currentItemSalesTax;
+             currentItemSalesTax = currentItemSubTotal * 0.055;
+             // salesTax = salesTax + currentItemSalesTax;
          }
+         
+         salesTax = salesTax + currentItemSalesTax;
          
          alert("current item sales tax = " + currentItemSalesTax.toFixed(2));
          alert("sales tax = " + salesTax.toFixed(2));
@@ -317,8 +333,6 @@
      
      
      var ClearAll = function(){
-         $("productInput").focus();
-         
          alert("entering the ClearAll() function");
          // This will be for the clear method
          $("productInput").value = "";
@@ -326,6 +340,8 @@
          $("quantityInput").value = "";
          $("TaxYes").checked = false;
          $("TaxNo").checked = false;
+         
+         $("productInput").focus();
      }
      
      
